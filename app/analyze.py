@@ -28,5 +28,3 @@ def analyze_review(review_text):
     )
 
     return response.choices[0].message.content
-
-#

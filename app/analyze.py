@@ -5,14 +5,15 @@ from openai import AzureOpenAI
 load_dotenv()
 
 
-# create client
-client = AzureOpenAI(
-    azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT"),
-    api_key = os.getenv("AZURE_OPENAI_KEY"),
-    api_version = "2024-02-01"
-)
 
 def analyze_review(review_text):
+    # create client
+    client = AzureOpenAI(
+        azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT"),
+        api_key = os.getenv("AZURE_OPENAI_KEY"),
+        api_version = "2024-02-01"
+    )
+
     instructions = """
     You are a review analyst. Analyze the following review and return a JSON object with:
     - sentiment: one of "positive", "neutral", or "negative"

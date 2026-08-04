@@ -5,8 +5,10 @@ function ProductList({ onSelectProduct}){
     const [products, setProducts] = useState([])
 
     useEffect(()=>{
-        axios.get('https://reviewsense-api-ve1k.onrender.com')
-            .then(response => setProducts(response.data))
+        axios.get('https://reviewsense-api-ve1k.onrender.com/products')
+            .then(response => {
+                console.log("Data: ", response.data)
+                setProducts(response.data)})
             .catch(error => console.error('Error:', error))
     }, []) 
 

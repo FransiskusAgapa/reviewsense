@@ -5,12 +5,17 @@ function ReviewFeed({ productId }) {
     const [reviews, setReviews] = useState([])
 
     useEffect(() => {
+        
+        if (!productId) return
+
         axios.get(`https://reviewsense-api-ve1k.onrender.com/products/${productId}/reviews`)
             .then(response => {
                 console.log("Data: ", response.data)
                 setReviews(response.data)})
             .catch(error => console.error('Error:', error))
     }, [productId])
+
+    if (!productId) return <div>Select a product first.</div>
 
     return (
         <div>

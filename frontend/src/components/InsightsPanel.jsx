@@ -1,41 +1,50 @@
-import {useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import axios from 'axios'
 
 function InsightsPanel({ productId }) {
     const [insights, setInsights] = useState([])
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-
         if (!productId) return
-        
+        setLoading(true)
         axios.get(`https://reviewsense-api-ve1k.onrender.com/products/${productId}/insights`)
-            .then(response => setInsights(response.data))
-            .catch(error => console.error('Error:', error))
-    },[productId])
-    
-    if (!productId) return <div>Select a product first.</div>
+            .then(response => {
+                setInsights(response.data)
+                setLoading(false)
+            })
+            .catch(error => {
+                console.error('Error:', error)
+                setLoading(false)
+            })
+    }, [productId])
+
+    if (!productId) return <div className="loading">Select a product from the Products tab first.</div>
+    if (loading) return <div className="loading">Loading insights...</div>
 
     return (
         <div>
-            <h2>Insights for Product ID: {productId}</h2>
-            <ul>
-                {insights.map(insight => (
-                    <li key={insight.insight_id} style={{marginBottom: '8px'}}>
-                        Label: <span style={{
-                                    backgroundColor: insight.sentiment_label === 'positive' ? 'green' : 
-                                                    insight.sentiment_label === 'negative' ? 'red' : 'orange',
-                                    color: 'white',
-                                    padding: '2px 8px',
-                                    borderRadius: '4px'
-                                }}>
-                                    {insight.sentiment_label}
-                                </span><br />
-                        Themes: {insight.themes.join(', ')} 
-                    </li>
-                ))}
-            </ul>
+            <h2 className="section-title">Insights ({insights.length} reviews analyzed)</h2>
+            {insights.map(insight => (
+                <div key={insight.insight_id} className="review-item">
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
+                        <span className={`badge badge-${insight.sentiment_label}`}>
+                            {insight.sentiment_label}
+                        </span>
+                        <span style={{ color: '#8899AA', fontSize: '0.85rem' }}>
+                            Score: {(insight.sentiment_score * 100).toFixed(0)}%
+                        </span>
+                    </div>
+                    <div className="themes">
+                        {insight.themes.map((theme, i) => (
+                            <span key={i} className="theme-tag">{theme}</span>
+                        ))}
+                    </div>
+                </div>
+            ))}
         </div>
     )
 }
+
 
 export default InsightsPanel

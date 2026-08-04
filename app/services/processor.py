@@ -48,8 +48,3 @@ class ReviewProcessor:
 
         # After the loop, commit the transaction with self.conn.commit()
         self.conn.commit()
-
-
-
-
-

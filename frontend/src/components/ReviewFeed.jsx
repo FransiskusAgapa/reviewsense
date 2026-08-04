@@ -5,7 +5,7 @@ function ReviewFeed({ productId }) {
     const [reviews, setReviews] = useState([])
 
     useEffect(() => {
-        axios.get(`http://localhost:8000/products/${productId}/reviews`)
+        axios.get(`https://reviewsense-api-ve1k.onrender.com/products/${productId}/reviews`)
             .then(response => setReviews(response.data))
             .catch(error => console.error('Error:', error))
     }, [productId])

@@ -5,7 +5,7 @@ function ProductList({ onSelectProduct}){
     const [products, setProducts] = useState([])
 
     useEffect(()=>{
-        axios.get('http://localhost:8000/products')
+        axios.get('https://reviewsense-api-ve1k.onrender.com')
             .then(response => setProducts(response.data))
             .catch(error => console.error('Error:', error))
     }, []) 

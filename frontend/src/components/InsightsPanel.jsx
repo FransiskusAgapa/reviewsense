@@ -5,7 +5,7 @@ function InsightsPanel({ productId }) {
     const [insights, setInsights] = useState([])
 
     useEffect(() => {
-        axios.get(`http://localhost:8000/products/${productId}/insights`)
+        axios.get(`https://reviewsense-api-ve1k.onrender.com/products/${productId}/insights`)
             .then(response => setInsights(response.data))
             .catch(error => console.error('Error:', error))
     },[productId])

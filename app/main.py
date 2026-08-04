@@ -1,6 +1,7 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request, HTTPException
 from app.database import get_connection
 from fastapi.middleware.cors import CORSMiddleware
+from app.rate_limiter import RateLimiter
 
 app = FastAPI(title="ReviewSense", version="1.0.0")
 
@@ -11,6 +12,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+limiter_rate = RateLimiter(max_tokens=5, refill_rate=1)  # 5 requests per second
 
 @app.get("/")
 def root():
@@ -24,7 +27,9 @@ def health():
 
 # get all products
 @app.get("/products")
-def get_all_products():
+def get_all_products(request: Request):
+    if not limiter_rate.is_allowed(request.client.host):
+        raise HTTPException(status_code=429, detail="Sorry, Too many requests. Please try again later.")
     conn = get_connection()
     cur = conn.cursor()
     cur.execute("""SELECT * FROM products""")

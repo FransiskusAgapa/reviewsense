@@ -27,4 +27,4 @@ function ProductList({ onSelectProduct}){
     )
 }
     
-export default App
+export default ProductList

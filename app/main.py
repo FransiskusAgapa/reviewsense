@@ -7,7 +7,7 @@ app = FastAPI(title="ReviewSense", version="1.0.0")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "https://reviewsense-frontend-ia6s.onrender.com"],
+    allow_origins=["http://localhost:5173", "https://reviewsense-frontend-p2qj.onrender.com"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

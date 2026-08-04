@@ -1,3 +1,4 @@
+// ReviewSense Dashboard v1.0
 import { useState } from 'react'
 import ProductList from './components/ProductList'
 import ReviewFeed from './components/ReviewFeed'
